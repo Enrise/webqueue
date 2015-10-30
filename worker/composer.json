@@ -1,0 +1,20 @@
+{
+    "name": "enrise/webqueue",
+    "version": "0.1",
+    "authors": [
+        {
+            "name": "Richard Tuin"
+        }
+    ],
+    "require": {
+        "videlalvaro/php-amqplib": "^2.5",
+        "monolog/monolog": "^1.17",
+        "guzzlehttp/guzzle": "^6.1",
+        "symfony/yaml": "^2.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Enrise\\WebQueue\\": "src/"
+        }
+    }
+}
