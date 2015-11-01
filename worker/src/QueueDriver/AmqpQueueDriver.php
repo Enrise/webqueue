@@ -27,6 +27,9 @@ class AmqpQueueDriver implements QueueDriver
     {
         $this->connection = $amqpConnection;
         $this->queueName = $queueName;
+
+        $this->channel = $this->connection->channel();
+        $this->initQueue();
     }
 
     public static function create($hostname, $queueName)
@@ -40,10 +43,6 @@ class AmqpQueueDriver implements QueueDriver
      */
     public function get()
     {
-        if ($this->channel === null) {
-            $this->channel = $this->connection->channel();
-        }
-
         $message = $this->channel->basic_get($this->queueName);
 
         if ($message === null) {
@@ -73,5 +72,12 @@ class AmqpQueueDriver implements QueueDriver
         /** @var QueueDriver\Message\AmqpMessage $message */
         $originalMessage = $message->getOriginalMessage();
         $this->channel->basic_reject($originalMessage->get('delivery_tag'), true);
+    }
+
+    private function initQueue()
+    {
+        $this->channel->queue_declare($this->queueName, false, true, false, false, false);
+        $this->channel->exchange_declare($this->queueName, 'direct', false, true, false);
+        $this->channel->queue_bind($this->queueName, $this->queueName, $this->queueName);
     }
 }

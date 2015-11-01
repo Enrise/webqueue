@@ -2,6 +2,7 @@
 
 use Enrise\WebQueue\QueueDriver\QueueDriverFactory;
 use Enrise\WebQueue\WebClient\HttpClient;
+use Enrise\WebQueue\Worker\MessageWorker;
 use GuzzleHttp\Client;
 use Symfony\Component\Yaml\Yaml;
 
@@ -42,5 +43,10 @@ $configuration = $configuration['worker'];
 $driver = QueueDriverFactory::createQueueDriver($configuration['driver'], $configuration['hostname'], $configuration['queue']);
 $webClient = new HttpClient(new Client(), $configuration['endpoint']);
 
-$worker = new \Enrise\WebQueue\Worker\MessageWorker($driver, $webClient, $logger);
+$worker = new MessageWorker($driver, $webClient, $logger);
+
+pcntl_signal(SIGTERM, [$worker, 'stop']);
+pcntl_signal(SIGINT, [$worker, 'stop']);
+pcntl_signal(SIGHUP, [$worker, 'stop']);
+
 $worker->start();
