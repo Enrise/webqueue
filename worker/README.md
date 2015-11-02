@@ -15,6 +15,8 @@ Then run a worker using:
 php bin/webqueue.php
 ```
 
+Use `-s` to let the worker log its events to syslog instead of stdout.
+
 ## WebQueue is built by
 
 - [Richard Tuin](https://github.com/rtuin)

@@ -9,7 +9,11 @@ use Symfony\Component\Yaml\Yaml;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $logger = new \Monolog\Logger('webqueue');
-$logger->pushHandler(new \Monolog\Handler\StreamHandler('php://output'));
+if (isset(getopt('s')['s'])) {
+    $logger->pushHandler(new \Monolog\Handler\SyslogHandler('worker'));
+} else {
+    $logger->pushHandler(new \Monolog\Handler\StreamHandler('php://output'));
+}
 
 $configurationPath = '/etc/webqueue/worker.yml';
 $globalConfiguration = [];
