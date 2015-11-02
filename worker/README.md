@@ -17,6 +17,19 @@ php bin/webqueue.php
 
 Use `-s` to let the worker log its events to syslog instead of stdout.
 
+## Example configuration
+
+```yaml
+worker:
+  driver: amqp
+  hostname: 192.168.59.103
+  port: 5672
+  username: guest
+  password: guest
+  queue: fooqueue
+  endpoint: http://localhost:1337
+```
+
 ## WebQueue is built by
 
 - [Richard Tuin](https://github.com/rtuin)
