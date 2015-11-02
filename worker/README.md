@@ -4,12 +4,15 @@ Particularly useful for job queue type of systems.
 
 ## Installation
 
-To be documented
+To be documented.
 
 ## Usage
 
+Place a configuration file in `/etc/webqueue/worker.yml`.
+
+Then run a worker using:
 ```bash
-php bin/webqueue.php -q foo -h 192.168.59.103 -d amqp -e http://localhost:1337/
+php bin/webqueue.php
 ```
 
 ## WebQueue is built by

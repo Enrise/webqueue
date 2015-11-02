@@ -8,37 +8,27 @@ use Symfony\Component\Yaml\Yaml;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$arguments = [
-    'queue',
-    'hostname',
-    'driver',
-    'endpoint',
-    'username',
-    'password',
-    'port',
-];
-$arguments2 = $arguments;
-array_walk($arguments2, function(&$value) {
-    $value .= ':';
-});
-
-$optionValues = getopt('', $arguments2);
-
 $logger = new \Monolog\Logger('webqueue');
 $logger->pushHandler(new \Monolog\Handler\StreamHandler('php://output'));
 
 $configurationPath = '/etc/webqueue/worker.yml';
 $globalConfiguration = [];
-if (is_readable($configurationPath)) {
-    $logger->addDebug('Loading system-wide configuration');
-    $workerConfig = file_get_contents($configurationPath);
-    $globalConfiguration = Yaml::parse($workerConfig);
+if (! is_readable($configurationPath)) {
+    $logger->addError(sprintf('Could not read configuration file: %s', $configurationPath));
+    exit(2);
 }
 
-$configuration = array_merge_recursive($globalConfiguration, ['worker' => $optionValues]);
-$configuration = $configuration['worker'];
+$workerConfig = file_get_contents($configurationPath);
+$globalConfiguration = Yaml::parse($workerConfig);
+$configuration = $globalConfiguration['worker'];
 
-// TODO: add configuration validation
+$arguments = ['driver', 'hostname', 'queue', 'endpoint'];
+foreach ($arguments as $argument) {
+    if (! isset($configuration[$argument])) {
+        $logger->addError(sprintf('Invalid configuation: "%s" not set.', $argument));
+        exit(2);
+    }
+}
 
 $driver = QueueDriverFactory::createQueueDriver($configuration['driver'], $configuration['hostname'], $configuration['queue']);
 $webClient = new HttpClient(new Client(), $configuration['endpoint']);
