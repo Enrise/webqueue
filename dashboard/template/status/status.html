@@ -1,0 +1,8 @@
+<h3>Status report</h3>
+<ul>
+    <li ng-repeat="stat in status">
+        {{ stat.Program }}
+        <span class="label label-success" ng-if="stat.Healthy == true">Success</span>
+        <span ng-if="stat.Healthy == false"><span class="label label-danger">Error</span> - {{stat.Error}}</span>
+    </li>
+</ul>

@@ -1,0 +1,19 @@
+rabbitmq:
+  host: 127.0.0.1
+  port: 5672
+  user: guest
+  password: guest
+
+lines:
+  -
+    queue: webqueue
+    target: http://localhost:8000/job
+
+dashboard:
+  bind_address: 127.0.0.1
+  port: 7809
+
+mongodb:
+  host: localhost
+  database: webqueue
+  timeout: 2
