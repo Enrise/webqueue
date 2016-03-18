@@ -19,6 +19,6 @@ angular.module('webqueue.dashboard.latestmessages', ['ngResource'])
 
         setInterval(function () {
             fetchLatestMessages();
-        }, 5000);
+        }, 1000);
     }])
 ;
