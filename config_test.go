@@ -1,7 +1,7 @@
 package webqueue_test
 
 import (
-	. "github.com/enrise/webqueue"
+	. "github.com/Enrise/webqueue"
 	check "gopkg.in/check.v1"
 	"testing"
 )
