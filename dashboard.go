@@ -21,6 +21,7 @@ func StartDashboard(config Config) {
 		http.HandleFunc("/", servePage)
 		http.HandleFunc("/api/status", serveStatus)
 		http.HandleFunc("/api/latest-messages", serveLatestMessages)
+		http.HandleFunc("/api/queue-info", serveQueueInfo)
 		err := http.ListenAndServe(dashAddress, nil)
 		if err != nil {
 			Log.Fatal("Cannot start dashboard on %s: %s", dashAddress, err)
@@ -105,3 +106,26 @@ func serveLatestMessages(w http.ResponseWriter, req *http.Request) {
 	}
 	w.Write(result)
 }
+
+func serveQueueInfo(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	resp, err := http.Get("http://guest:guest@127.0.0.1:15672/api/queues/%2F/webqueue?lengths_age=600&lengths_incr=5&msg_rates_age=600&msg_rates_incr=5")
+	if err != nil {
+		Log.Warning("Could not fetch info from queue: %v", err)
+		w.WriteHeader(500)
+		return
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		Log.Warning("Could not fetch info from queue: %v", err)
+		w.WriteHeader(500)
+		return
+	}
+
+	w.Write(body)
+}
+
+// http://guest:guest@127.0.0.1:15672/api/queues/%2F/webqueue?lengths_age=600&lengths_incr=5&msg_rates_age=600&msg_rates_incr=5

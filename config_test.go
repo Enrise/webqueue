@@ -24,7 +24,7 @@ func (s *ConfigSuite) TestLoadConfig(c *check.C) {
 			Rabbitmq: RabbitMQConfig{
 				Host: "127.0.0.1", Port: 5672, User: "guest", Password: "guest"},
 			Lines: []LineConfig{
-				{Queue: "foobar", Target: "http://localhost:1234/job"},
+				{Queue: "foobar", Target: "http://localhost:1234/job", MaxConcurrent: 4},
 			},
 			Dashboard: DashboardConfig{BindAddress: "0.0.0.0", Port: 7809},
 			MongoDB:   MongoConfig{Host: "localhost", Database: "webqueue", Timeout: 2},

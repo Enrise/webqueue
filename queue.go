@@ -3,6 +3,7 @@ package webqueue
 import (
 	"fmt"
 	"github.com/streadway/amqp"
+	// "time"
 )
 
 func StartLine(rabbitConf RabbitMQConfig, lineConf LineConfig) {
@@ -18,6 +19,8 @@ func StartLine(rabbitConf RabbitMQConfig, lineConf LineConfig) {
 	q, err := ch.QueueDeclare("webqueue", false, false, false, false, nil)
 	panicOnError(err, "Could not create queue")
 
+	ch.Qos(lineConf.MaxConcurrent, 0, false)
+
 	consumer, err := ch.Consume(q.Name, "", false, false, false, false, nil)
 	panicOnError(err, "Could not create consumer")
 
@@ -26,6 +29,7 @@ func StartLine(rabbitConf RabbitMQConfig, lineConf LineConfig) {
 	go func() {
 		for d := range consumer {
 			Log.Info("Received message: %s", d.Body)
+			// time.Sleep(10000000 * time.Second)
 			respBody, err := processMessage(lineConf, string(d.Body))
 			if err != nil {
 				Log.Warning("Message handling failed: %s", err)

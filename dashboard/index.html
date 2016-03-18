@@ -7,28 +7,44 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Webqueue</title>
 
+    <style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.2/nv.d3.min.css">
     <link rel="stylesheet" href="css/webqueue.css">
 </head>
 <body>
     <div ng-view class="container">
-        <h1>Please wait for the dashboard to load...</h1>
+        <h1 class="text-center loadingtext">
+            Please wait...
+        </h1>
+
+        <h2 class="text-center loadingtext">the webqueue dashboard is loading</h2>
+
     </div>
 
     <footer class="footer text-center text-muted">
         <p>Made with love by <img src="/img/enrise-logo.svg" class="enrise-logo"></p>
     </footer>
 
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.2/nv.d3.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
     <script src="https://code.angularjs.org/1.5.0/angular-resource.min.js"></script>
     <script src="https://code.angularjs.org/1.5.0/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-nvd3/1.0.5/angular-nvd3.min.js"></script>
     <script src="/js/webqueue.js"></script>
     <script src="/js/status/status.js"></script>
     <script src="/js/dashboard/latestmessages.js"></script>
+    <script src="/js/dashboard/queue-graph.js"></script>
     <script src="/js/dashboard/dashboard.js"></script>
 </body>
 </html>

@@ -35,21 +35,6 @@ func GetLatestMessages() (results []MessageResultOut) {
 	return results
 }
 
-func GetProcessedMessagesHistogram() (results []MessageResultOut) {
-	session, err := getMongoSession()
-	if err != nil {
-		return results
-	}
-	collection := session.DB(AppMongoConfig.Database).C("map_reduce_example")
-
-	err = collection.Find(nil).Sort("-_id").All(&results)
-	if err != nil {
-		Log.Fatal("Invalid query for fetching messages: %s", err)
-		return results
-	}
-	return results
-}
-
 func getMongoSession() (*mgo.Session, error) {
 	timeout := time.Duration(AppMongoConfig.Timeout) * time.Second
 	session, err := mgo.DialWithTimeout(AppMongoConfig.Host, time.Duration(timeout))

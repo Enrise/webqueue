@@ -23,8 +23,9 @@ type DashboardConfig struct {
 }
 
 type LineConfig struct {
-	Queue  string
-	Target string
+	Queue         string
+	Target        string
+	MaxConcurrent int `yaml:"max_concurrent"`
 }
 
 type Config struct {

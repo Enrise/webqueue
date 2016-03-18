@@ -1,3 +1,35 @@
+@font-face {
+    font-family: 'GeogrotesqueRegular';
+    src: url('font/geogrotesque-regular-webfont.eot');
+    src: url('font/geogrotesque-regular-webfont.eot?#iefix') format('embedded-opentype'), url('font/geogrotesque-regular-webfont.woff') format('woff'), url('font/geogrotesque-regular-webfont.ttf') format('truetype'), url('font/geogrotesque-regular-webfont.svg#GeogrotesqueRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GeogrotesqueSemibold';
+    src: url('font/geogrotesque-semibold-webfont.eot');
+    src: url('font/geogrotesque-semibold-webfont.eot?#iefix') format('embedded-opentype'), url('font/geogrotesque-semibold-webfont.woff') format('woff'), url('font/geogrotesque-semibold-webfont.ttf') format('truetype'), url('font/geogrotesque-semibold-webfont.svg#GeogrotesqueSemibold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    color: #000;
+    font-family: Arial, sans-serif;
+}
+h1.loadingtext {
+    font-family: GeogrotesqueSemibold, Arial, sans-serif;
+    margin: 2em 0 0.5em;
+    color: #C8C9C7;
+}
+h2.loadingtext {
+    font-family: GeogrotesqueSemibold, Arial, sans-serif;
+    margin: 0 0 2em;
+    color: #C8C9C7;
+    font-size: 2em;
+}
+
 webqueue-status ul {
     padding: 0;
     margin: 0;
@@ -7,9 +39,67 @@ webqueue-status ul {
     list-style-type: none;
 }
 
+footer {
+    margin: 2em 0 3em;
+}
+
 footer img.enrise-logo {
     vertical-align: middle;
     height: 20px;
     margin-left: 10px;
 }
 
+header {
+    background-color: #f2a900;
+}
+
+header h1 {
+    margin: 0;
+    padding: 0.67em 0;
+    font-family: GeogrotesqueSemibold, Arial, sans-serif;
+}
+
+header .subtitle {
+    font-family: GeogrotesqueRegular, Arial, sans-serif;
+    font-size: 20px;
+}
+
+section.wpanel {
+    border: solid 15px #53565A;
+}
+
+section.wpanel h2 {
+    color: #fff;
+    background-color: #53565A;
+    margin: 0;
+    padding-bottom: 0.6em;
+    font-family: GeogrotesqueRegular, Arial, sans-serif;
+    font-size: 1.5em;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+/* nvd3 */
+
+nvd3 .caption {
+    font-family: GeogrotesqueRegular, Arial, sans-serif;
+    font-size: 1.3em;
+    margin: -20px 0 15px;
+}
+
+/* status panel */
+webqueue-status p {
+    font-family: GeogrotesqueRegular, Arial, sans-serif;
+    font-size: 1.3em;
+    color: #fff;
+    margin-top: 0.5em;
+}
+
+.background-success {
+    background-color: #84BD00;
+}
+.background-danger {
+    background-color: #DA291C;
+}

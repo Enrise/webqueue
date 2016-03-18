@@ -32,15 +32,16 @@ func processMessage(line LineConfig, payload string) (respBody []byte, err error
 	if err != nil {
 		err = errors.New(fmt.Sprintf("Could not read response body from Target: %s", err))
 		Log.Warning(err.Error())
+		return nil, err
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		err = errors.New(fmt.Sprintf("Target sent negative response code (%d). Response body: %s", resp.StatusCode, respBody))
 		Log.Warning(err.Error())
-		return
+		return nil, err
 	}
 
-	return
+	return respBody, err
 }
 
 func writeMessageResult(reqBody string, respBody string, status int) {

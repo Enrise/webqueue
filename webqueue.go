@@ -11,6 +11,7 @@ func Webqueue(config Config) {
 
 	for line := range config.Lines {
 		Log.Notice("Starting line %d", line)
+
 		go StartLine(config.Rabbitmq, config.Lines[line])
 	}
 

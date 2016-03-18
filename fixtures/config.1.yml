@@ -8,6 +8,7 @@ lines:
   -
     queue: foobar
     target: http://localhost:1234/job
+    max_concurrent: 4
 
 dashboard:
   bind_address: "0.0.0.0"

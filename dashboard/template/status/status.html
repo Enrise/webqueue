@@ -1,8 +1,16 @@
-<h3>Status report</h3>
-<ul>
-    <li ng-repeat="stat in status">
-        {{ stat.Program }}
-        <span class="label label-success" ng-if="stat.Healthy == true">Success</span>
-        <span ng-if="stat.Healthy == false"><span class="label label-danger">Error</span> - {{stat.Error}}</span>
-    </li>
-</ul>
+<div class="row" ng-class="allgood ? 'background-success' : 'background-danger'">
+    <div class="col-lg-12 text-center">
+        <p ng-if="allgood">Yay, all systems are up!</p>
+        <p ng-if="!allgood" ng-cloak>
+            Yikes,
+            <span ng-repeat="stat in filteredStatus = (status | filter:{Healthy: false})">
+                {{ stat.Program }}{{$last ? '' : ' and '}}
+            </span>
+
+            <span ng-if="filteredStatus.length > 1">are</span>
+            <span ng-if="filteredStatus.length == 1">is</span>
+
+            down!
+        </p>
+    </div>
+</div>
