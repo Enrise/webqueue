@@ -1,6 +1,6 @@
 <?php
 
-sleep(3);
+sleep(1);
 $input = file_get_contents('php://input');
 if (strpos($input, 'fail')) {
 	http_response_code(500);

@@ -3,7 +3,6 @@ package webqueue
 import (
 	"fmt"
 	"github.com/streadway/amqp"
-	// "time"
 )
 
 func StartLine(rabbitConf RabbitMQConfig, lineConf LineConfig) {
@@ -26,18 +25,24 @@ func StartLine(rabbitConf RabbitMQConfig, lineConf LineConfig) {
 
 	forever := make(chan bool)
 
+	processor := Processor{}
+	processor.Init(lineConf)
+
 	go func() {
 		for d := range consumer {
 			Log.Info("Received message: %s", d.Body)
+			processor.HandleMessage(string(d.Body))
+			// Log.Info("Received message: %s", d.Body)
 			// time.Sleep(10000000 * time.Second)
-			respBody, err := processMessage(lineConf, string(d.Body))
-			if err != nil {
-				Log.Warning("Message handling failed: %s", err)
-				d.Reject(true)
-				continue
-			}
-			Log.Info("Message handling successful, target response: %s", string(respBody))
-			d.Ack(false)
+			// respBody, err := processMessage(lineConf, string(d.Body))
+			// if err != nil {
+			// Log.Warning("Message handling failed: %s", err)
+			d.Reject(true)
+			// d.Nack(false, true)
+			// continue
+			// }
+			// Log.Info("Message handling successful, target response: %s", string(respBody))
+			// d.Ack(false)
 		}
 	}()
 
