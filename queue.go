@@ -3,24 +3,40 @@ package webqueue
 import (
 	"fmt"
 	"github.com/streadway/amqp"
+	"time"
 )
 
 func StartLine(rabbitConf RabbitMQConfig, lineConf LineConfig) {
-	conn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%d/", rabbitConf.Host, rabbitConf.Port))
+	consumerConn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%d/", rabbitConf.Host, rabbitConf.Port))
 	panicOnError(err, "Could not connect to RabbitMQ")
 
-	defer conn.Close()
+	publisherConn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%d/", rabbitConf.Host, rabbitConf.Port))
+	panicOnError(err, "Could not connect to RabbitMQ")
 
-	ch, err := conn.Channel()
-	panicOnError(err, "Could not create channel")
-	defer ch.Close()
+	defer consumerConn.Close()
+	defer publisherConn.Close()
 
-	q, err := ch.QueueDeclare("webqueue", false, false, false, false, nil)
+	consumerChannel, err := consumerConn.Channel()
+	panicOnError(err, "Could not create consumer channel")
+	defer consumerChannel.Close()
+
+	producerChannel, err := publisherConn.Channel()
+	panicOnError(err, "Could not create producer channel")
+	defer consumerChannel.Close()
+	defer producerChannel.Close()
+
+	// Create the exchange we (re)publish to
+	err = producerChannel.ExchangeDeclare(lineConf.Queue, "topic", true, false, false, false, nil)
+	panicOnError(err, "Could not create exchange")
+
+	q, err := consumerChannel.QueueDeclare(lineConf.Queue, false, false, false, false, nil)
 	panicOnError(err, "Could not create queue")
+	err = consumerChannel.QueueBind(lineConf.Queue, "#", lineConf.Queue, false, nil)
+	panicOnError(err, "Could not bind exchange to queue")
 
-	ch.Qos(lineConf.MaxConcurrent, 0, false)
+	consumerChannel.Qos(lineConf.MaxConcurrent, 0, false)
 
-	consumer, err := ch.Consume(q.Name, "", false, false, false, false, nil)
+	consumer, err := consumerChannel.Consume(q.Name, "", false, false, false, false, nil)
 	panicOnError(err, "Could not create consumer")
 
 	forever := make(chan bool)
@@ -31,18 +47,19 @@ func StartLine(rabbitConf RabbitMQConfig, lineConf LineConfig) {
 	go func() {
 		for d := range consumer {
 			Log.Info("Received message: %s", d.Body)
-			processor.HandleMessage(string(d.Body))
-			// Log.Info("Received message: %s", d.Body)
-			// time.Sleep(10000000 * time.Second)
-			// respBody, err := processMessage(lineConf, string(d.Body))
-			// if err != nil {
-			// Log.Warning("Message handling failed: %s", err)
-			d.Reject(true)
-			// d.Nack(false, true)
-			// continue
-			// }
-			// Log.Info("Message handling successful, target response: %s", string(respBody))
-			// d.Ack(false)
+			success := processor.HandleMessage(string(d.Body))
+
+			if success {
+				d.Ack(false)
+				continue
+			}
+
+			d.Ack(false)
+			producerChannel.Publish(lineConf.Queue, "", false, false, amqp.Publishing{
+				DeliveryMode: d.DeliveryMode,
+				Timestamp:    time.Now(),
+				Body:         d.Body,
+			})
 		}
 	}()
 
