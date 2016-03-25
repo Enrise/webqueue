@@ -103,3 +103,20 @@ webqueue-status p {
 .background-danger {
     background-color: #DA291C;
 }
+
+/* panel create job */
+.panel-create-job {
+    padding-bottom: 15px;
+}
+section.wpanel.panel-create-job {
+    border: solid 15px #75787B;
+}
+section.wpanel.panel-create-job h2 {
+    background-color: #75787B;
+}
+#create-job-content {
+    border: solid 0px #000000;
+    border-bottom: solid 1px #75787B;
+    width: 100%;
+    height: 100px;
+}

@@ -1,0 +1,14 @@
+<h2>Create a job</h2>
+
+<textarea title="job creation content" id="create-job-content" ng-model="jobContent" placeholder="Put the job payload here"></textarea>
+<br>
+<a class="btn btn-default" ng-click="createJob()">Create</a>
+
+<div class="ng-cloak alert alert-danger" role="alert" ng-if="errorMessage != null">
+    <strong>Could not create job:</strong> {{errorMessage}}.
+    <small>This message will self-destruct in {{errorCountdown}} seconds.</small>
+</div>
+<div class="ng-cloak alert alert-success" role="alert" ng-if="successMessage != null">
+    {{successMessage}}
+    <small>This message will self-destruct in {{successCountdown}} seconds.</small>
+</div>
