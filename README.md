@@ -50,5 +50,5 @@ $ go test
 
 ## Credits
 
-- [Richard Tuin][http://github.com/rtuin]
-- [All Contributors][https://github.com/Enrise/webqueue/contributors]
+- [Richard Tuin](http://github.com/rtuin)
+- [All Contributors](https://github.com/Enrise/webqueue/contributors)
