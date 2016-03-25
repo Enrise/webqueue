@@ -19,8 +19,9 @@ func StartDashboard(config Config) {
 	go func() {
 		http.HandleFunc("/", servePage)
 		http.HandleFunc("/api/status", serveStatus)
-		http.HandleFunc("/api/latest-messages", serveLatestMessages)
+		http.HandleFunc("/api/latest-jobs", serveLatestJobs)
 		http.HandleFunc("/api/queue-info", serveQueueInfo)
+		http.HandleFunc("/api/create-job", serveCreateJob)
 		err := http.ListenAndServe(dashAddress, nil)
 		if err != nil {
 			Log.Fatal("Cannot start dashboard on %s: %s", dashAddress, err)
@@ -85,21 +86,21 @@ func serveStatus(w http.ResponseWriter, req *http.Request) {
 
 }
 
-func serveLatestMessages(w http.ResponseWriter, req *http.Request) {
+func serveLatestJobs(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	messages := GetLatestMessages()
+	jobs := GetLatestJobs()
 
-	for index, element := range messages {
+	for index, element := range jobs {
 		id, ok := element.Id.(bson.ObjectId)
 		if !ok {
 			Log.Warning("Could not convert mongo ObjectId to ObjectId: %v", id)
 			continue
 		}
-		messages[index].Timestamp = id.Time()
+		jobs[index].Timestamp = id.Time()
 	}
 
-	result, err := json.Marshal(messages)
+	result, err := json.Marshal(jobs)
 	if err != nil {
 		w.WriteHeader(500)
 	}
@@ -134,4 +135,35 @@ func serveQueueInfo(w http.ResponseWriter, req *http.Request) {
 	}
 
 	w.Write(body)
+}
+
+type CreateJobRequest struct {
+	Payload string `json:"payload"`
+}
+
+func serveCreateJob(w http.ResponseWriter, req *http.Request) {
+	if req.Method != http.MethodPost {
+		w.Header().Set("Allow", http.MethodPost)
+		w.WriteHeader(405)
+		return
+	}
+
+	var reqJson CreateJobRequest
+	reqBody, _ := ioutil.ReadAll(req.Body)
+	err := json.Unmarshal(reqBody, &reqJson)
+	if err != nil {
+		Log.Error("Could not decode JSON: %v", err)
+		w.WriteHeader(500)
+		return
+	}
+
+	err = PublishToLine(reqJson.Payload, dashboardConfig.Lines[0], dashboardConfig.Rabbitmq)
+	if err != nil {
+		Log.Error("Could not publish message to line: %v", err)
+		w.WriteHeader(500)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(204)
 }

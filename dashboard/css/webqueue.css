@@ -105,8 +105,20 @@ webqueue-status p {
 }
 
 /* panel create job */
-.panel-create-job {
+h2 > span {
+    display: inline-block;
+}
+.panel-create-job h2 {
+    cursor: pointer;
+}
+.panel-create-job.panel-open {
     padding-bottom: 15px;
+}
+section.wpanel.panel-create-job.panel-closed h2 {
+    padding: 0;
+}
+section.wpanel.panel-create-job.panel-open h2 > span {
+    transform: rotate(90deg);
 }
 section.wpanel.panel-create-job {
     border: solid 15px #75787B;

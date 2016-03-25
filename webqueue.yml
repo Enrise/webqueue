@@ -9,7 +9,7 @@ lines:
   -
     queue: webqueue
     target: http://localhost:8000/job
-    max_concurrent: 2
+    max_concurrent: 3
 
 dashboard:
   bind_address: 127.0.0.1

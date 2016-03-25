@@ -20,7 +20,7 @@ type DateMessageCount struct {
 	count     int
 }
 
-func GetLatestMessages() (results []MessageResultOut) {
+func GetLatestJobs() (results []MessageResultOut) {
 	session, err := getMongoSession()
 	if err != nil {
 		return results
@@ -31,7 +31,7 @@ func GetLatestMessages() (results []MessageResultOut) {
 
 	err = collection.Find(nil).Sort("-_id").Limit(10).All(&results)
 	if err != nil {
-		Log.Fatal("Invalid query for fetching messages: %s", err)
+		Log.Fatal("Invalid query for fetching jobs: %s", err)
 		return results
 	}
 	return results

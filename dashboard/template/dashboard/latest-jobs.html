@@ -1,0 +1,20 @@
+<h2>Latest jobs</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Request</th>
+            <th>Response</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="job in jobs">
+            <td>{{job.Timestamp|date:"dd-MM-yyyy HH:mm:ss"}}</td>
+            <td>{{job.Status}}</td>
+            <td>{{job.Request|limitTo:50}}</td>
+            <td>{{job.Response|limitTo:50}}</td>
+        </tr>
+    </tbody>
+</table>

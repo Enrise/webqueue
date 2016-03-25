@@ -7,11 +7,8 @@ import (
 )
 
 func StartLine(rabbitConf RabbitMQConfig, lineConf LineConfig) {
-	consumerConn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%d/", rabbitConf.Host, rabbitConf.Port))
-	panicOnError(err, "Could not connect to RabbitMQ")
-
-	publisherConn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%d/", rabbitConf.Host, rabbitConf.Port))
-	panicOnError(err, "Could not connect to RabbitMQ")
+	consumerConn := createRabbitMqConnection(rabbitConf)
+	publisherConn := createRabbitMqConnection(rabbitConf)
 
 	defer consumerConn.Close()
 	defer publisherConn.Close()
@@ -26,8 +23,7 @@ func StartLine(rabbitConf RabbitMQConfig, lineConf LineConfig) {
 	defer producerChannel.Close()
 
 	// Create the exchange we (re)publish to
-	err = producerChannel.ExchangeDeclare(lineConf.Queue, "topic", true, false, false, false, nil)
-	panicOnError(err, "Could not create exchange")
+	createRabbitMqExchange(producerChannel, lineConf)
 
 	q, err := consumerChannel.QueueDeclare(lineConf.Queue, false, false, false, false, nil)
 	panicOnError(err, "Could not create queue")
@@ -65,4 +61,31 @@ func StartLine(rabbitConf RabbitMQConfig, lineConf LineConfig) {
 
 	Log.Notice("Waiting for messages. Press CTRL+C to exit...")
 	<-forever
+}
+
+func createRabbitMqConnection(rabbitConf RabbitMQConfig) *amqp.Connection {
+	publisherConn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%d/", rabbitConf.Host, rabbitConf.Port))
+	panicOnError(err, "Could not connect to RabbitMQ")
+
+	return publisherConn
+}
+
+func createRabbitMqExchange(channel *amqp.Channel, lineConf LineConfig) {
+	err := channel.ExchangeDeclare(lineConf.Queue, "topic", true, false, false, false, nil)
+	panicOnError(err, "Could not create exchange")
+}
+
+func PublishToLine(payload string, lineConf LineConfig, rabbitConf RabbitMQConfig) error {
+	conn := createRabbitMqConnection(rabbitConf)
+
+	producerChannel, err := conn.Channel()
+	panicOnError(err, "Could not create new RabbitMQ channel")
+
+	createRabbitMqExchange(producerChannel, lineConf)
+
+	return producerChannel.Publish(lineConf.Queue, "", false, false, amqp.Publishing{
+		DeliveryMode: amqp.Transient,
+		Timestamp:    time.Now(),
+		Body:         []byte(payload),
+	})
 }

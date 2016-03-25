@@ -1,6 +1,6 @@
 angular.module('webqueue.dashboard', [
     'ngRoute',
-    'webqueue.dashboard.latestmessages',
+    'webqueue.dashboard.latest-jobs',
     'webqueue.dashboard.queue-graph',
     'webqueue.dashboard.createjob'
 ])

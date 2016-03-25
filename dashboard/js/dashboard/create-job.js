@@ -7,6 +7,7 @@ angular.module('webqueue.dashboard.createjob', ['ngResource'])
         }
     })
     .controller('createJobCtrl', ['$scope', '$resource', function ($scope, $resource) {
+        $scope.showForm = false;
         $scope.jobContent = "";
         $scope.errorMessage = null;
         $scope.successMessage = null;
@@ -15,6 +16,10 @@ angular.module('webqueue.dashboard.createjob', ['ngResource'])
 
         var Job = $resource('/api/create-job', {}, {post: {}});
 
+        $scope.openForm = function () {
+            $scope.showForm = !$scope.showForm;
+        };
+
         $scope.createJob = function () {
             var job = new Job();
             job.payload = $scope.jobContent;
@@ -22,11 +27,11 @@ angular.module('webqueue.dashboard.createjob', ['ngResource'])
                 $scope.jobContent = "";
                 $scope.successMessage = "Job created!";
                 $scope.successCountdown = 5;
-                setTimeout(function() {
+                setTimeout(function () {
                     $scope.successMessage = null;
                 }, 5000);
 
-                var successInterval = setInterval(function() {
+                var successInterval = setInterval(function () {
                     $scope.successCountdown -= 1;
                     if ($scope.successCountdown == 0) {
                         clearInterval(successInterval);
@@ -35,11 +40,11 @@ angular.module('webqueue.dashboard.createjob', ['ngResource'])
             }, function (data) {
                 $scope.errorMessage = data.statusText;
                 $scope.errorCountdown = 5;
-                setTimeout(function() {
+                setTimeout(function () {
                     $scope.errorMessage = null;
                 }, 5000);
 
-                var errorInterval = setInterval(function() {
+                var errorInterval = setInterval(function () {
                     $scope.errorCountdown -= 1;
                     if ($scope.errorCountdown == 0) {
                         clearInterval(errorInterval);
