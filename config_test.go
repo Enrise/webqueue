@@ -22,7 +22,7 @@ func (s *ConfigSuite) TestLoadConfig(c *check.C) {
 		check.DeepEquals,
 		Config{
 			Rabbitmq: RabbitMQConfig{
-				Host: "127.0.0.1", Port: 5672, User: "guest", Password: "guest"},
+				Host: "127.0.0.1", Port: 5672, User: "guest", Password: "guest", ManagementPort: 15672},
 			Lines: []LineConfig{
 				{Queue: "foobar", Target: "http://localhost:1234/job", MaxConcurrent: 4},
 			},

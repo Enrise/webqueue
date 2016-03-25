@@ -25,6 +25,8 @@ func GetLatestMessages() (results []MessageResultOut) {
 	if err != nil {
 		return results
 	}
+	defer session.Close()
+
 	collection := session.DB(AppMongoConfig.Database).C("messagelog")
 
 	err = collection.Find(nil).Sort("-_id").Limit(10).All(&results)

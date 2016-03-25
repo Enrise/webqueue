@@ -1,8 +1,8 @@
 # Webqueue
 
-The message queue with insight.
+The job queue with insight.
 
-Webqueue makes you more productive when it comes to message queueing.
+Webqueue makes you more productive when it comes to job queueing.
 
 ## Installation
 

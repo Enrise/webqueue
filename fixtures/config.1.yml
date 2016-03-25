@@ -3,6 +3,7 @@ rabbitmq:
   port: 5672
   user: guest
   password: guest
+  management_port: 15672
 
 lines:
   -

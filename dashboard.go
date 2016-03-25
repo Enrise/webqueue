@@ -109,7 +109,16 @@ func serveLatestMessages(w http.ResponseWriter, req *http.Request) {
 func serveQueueInfo(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	resp, err := http.Get("http://guest:guest@127.0.0.1:15672/api/queues/%2F/webqueue?lengths_age=600&lengths_incr=5&msg_rates_age=600&msg_rates_incr=5")
+	rabbitUrl := fmt.Sprintf(
+		"http://%s:%s@%s:%d/api/queues/%%2F/%s?lengths_age=600&lengths_incr=5&msg_rates_age=600&msg_rates_incr=5",
+		dashboardConfig.Rabbitmq.User,
+		dashboardConfig.Rabbitmq.Password,
+		dashboardConfig.Rabbitmq.Host,
+		dashboardConfig.Rabbitmq.ManagementPort,
+		dashboardConfig.Lines[0].Queue,
+	)
+
+	resp, err := http.Get(rabbitUrl)
 	if err != nil {
 		Log.Warning("Could not fetch info from queue: %v", err)
 		w.WriteHeader(500)
@@ -126,5 +135,3 @@ func serveQueueInfo(w http.ResponseWriter, req *http.Request) {
 
 	w.Write(body)
 }
-
-// http://guest:guest@127.0.0.1:15672/api/queues/%2F/webqueue?lengths_age=600&lengths_incr=5&msg_rates_age=600&msg_rates_incr=5

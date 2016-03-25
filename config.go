@@ -6,10 +6,11 @@ import (
 )
 
 type RabbitMQConfig struct {
-	Host     string
-	Port     int
-	User     string
-	Password string
+	Host           string
+	Port           int
+	User           string
+	Password       string
+	ManagementPort int `yaml:"management_port"`
 }
 type MongoConfig struct {
 	Host     string
