@@ -4,6 +4,8 @@ The job queue with insight.
 
 Webqueue makes you more productive when it comes to job queueing.
 
+![](http://i.imgur.com/Pg3sv7f.png)
+
 ## Installation
 
 Clone this repository and checkout the master branch.
