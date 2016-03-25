@@ -1,4 +1,4 @@
-# Webqueue
+# Webqueue [![Build Status](https://travis-ci.com/Enrise/webqueue.svg?token=bJj624tmX7p2HiV5a4rJ&branch=master)](https://travis-ci.com/Enrise/webqueue)
 
 The job queue with insight.
 
