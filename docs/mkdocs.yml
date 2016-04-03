@@ -1,0 +1,5 @@
+site_name: Webqueue documentation
+docs_dir: .
+pages:
+- Home: index.md
+- Getting started: getting-started.md
