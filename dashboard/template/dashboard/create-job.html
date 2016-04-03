@@ -2,7 +2,7 @@
     <h2 ng-click="openForm()"><span>&gt;</span> Create a job</h2>
 
     <div ng-if="showForm">
-        <textarea title="job creation content" id="create-job-content" ng-model="jobContent" placeholder="Put the job payload here"></textarea>
+        <textarea title="job creation content" id="create-job-content" ng-model="$parent.jobContent" placeholder="Put the job payload here"></textarea>
         <br>
         <a class="btn btn-default" ng-click="createJob()">Create</a>
 

@@ -11,7 +11,6 @@ angular.module('webqueue.dashboard.queue-graph', ['ngResource', 'nvd3'])
         $scope.options = {
             chart: {
                 color: function (data, index) {
-
                     return colors[index];
                 },
                 type: 'stackedAreaChart',
@@ -36,7 +35,7 @@ angular.module('webqueue.dashboard.queue-graph', ['ngResource', 'nvd3'])
             },
             caption: {
                 enable: true,
-                html: 'Messages in the last 10 minutes'
+                html: 'Jobs in the last 10 minutes'
             }
         };
 
@@ -44,7 +43,7 @@ angular.module('webqueue.dashboard.queue-graph', ['ngResource', 'nvd3'])
 
         var fetchRabbitMqStatistics = function () {
             RabbitInfo.get().$promise.then(function (info) {
-                $scope.message_data = [
+                $scope.job_data = [
                     {
                         key: "Processing",
                         values: info.messages_unacknowledged_details.samples
