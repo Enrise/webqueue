@@ -1,0 +1,59 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Webqueue\n\n\nThe job queue with insight.\n\n\nWebqueue makes you more productive when it comes to job queueing.\n\n\n\n\nNote\n Webqueue is currently in development, be careful with use in production!\n\n\n\n\nHow does webqueue work?\n\n\nWebqueue uses \nRabbitMQ\n and HTTP to make asynchronous processing easier for you.\nAt its core Webqueue is a message queue consumer that executes an HTTP-POST to a URL for every message it gets. You don't have to worry about managing a queue consumer.\n\n\nWhy do I need this?\n\n\nWhen you have a background in PHP for the web, long-running processes like a queue consumer are a different story compared to short-living web requests. Developing long running processes require an eye for memory- and processmanagement and a different type of error recovery.\n\n\nWebqueue takes this trouble away from you. Your jobs (or messages) are executed as the same short-living calls your web application is written in!\n\n\nHow can I get started?\n\n\nThere is a \ngetting started guide\n included in the documentation.", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/#webqueue", 
+            "text": "The job queue with insight.  Webqueue makes you more productive when it comes to job queueing.   Note  Webqueue is currently in development, be careful with use in production!", 
+            "title": "Webqueue"
+        }, 
+        {
+            "location": "/#how-does-webqueue-work", 
+            "text": "Webqueue uses  RabbitMQ  and HTTP to make asynchronous processing easier for you.\nAt its core Webqueue is a message queue consumer that executes an HTTP-POST to a URL for every message it gets. You don't have to worry about managing a queue consumer.", 
+            "title": "How does webqueue work?"
+        }, 
+        {
+            "location": "/#why-do-i-need-this", 
+            "text": "When you have a background in PHP for the web, long-running processes like a queue consumer are a different story compared to short-living web requests. Developing long running processes require an eye for memory- and processmanagement and a different type of error recovery.  Webqueue takes this trouble away from you. Your jobs (or messages) are executed as the same short-living calls your web application is written in!", 
+            "title": "Why do I need this?"
+        }, 
+        {
+            "location": "/#how-can-i-get-started", 
+            "text": "There is a  getting started guide  included in the documentation.", 
+            "title": "How can I get started?"
+        }, 
+        {
+            "location": "/getting-started/", 
+            "text": "Getting started with Webqueue\n\n\nRequirements:\n\n\n\n\nMongoDB\n (3.x)\n\n\nRabbitMQ\n (3.x, with the management plugin enabled)\n\n\nConfigured Golang environment\n\n\n\n\nInstallation\n\n\nClone this repository and checkout the master branch.\n\n\n$ git clone git@github.com:Enrise/webqueue.git\n\n\n\n\nInstall the dependencies:\n\n\n$ go get ./...\n\n\n\n\nRun the golang app:\n\n\n$ go run cmd/webqueue.go\n\n\n\n\nConfiguration\n\n\nWebqueue can be configured by editing \nwebqueue.yml\n.\n\n\nRunning it with a separate configuration file can be done like so:\n\n\n$ go run cmd/webqueue.go -c foo.yml\n\n\n\n\nSystem-wide installation\n\n\nWhen installed system-wide using the instructions above you can start Webqueue by running:\n\n\n$ webqueue\n\n\n\n\nOr when you want to provide a custom configuration file:\n\n\n$ webqueue -c webqueue.yml", 
+            "title": "Getting started"
+        }, 
+        {
+            "location": "/getting-started/#getting-started-with-webqueue", 
+            "text": "", 
+            "title": "Getting started with Webqueue"
+        }, 
+        {
+            "location": "/getting-started/#requirements", 
+            "text": "MongoDB  (3.x)  RabbitMQ  (3.x, with the management plugin enabled)  Configured Golang environment", 
+            "title": "Requirements:"
+        }, 
+        {
+            "location": "/getting-started/#installation", 
+            "text": "Clone this repository and checkout the master branch.  $ git clone git@github.com:Enrise/webqueue.git  Install the dependencies:  $ go get ./...  Run the golang app:  $ go run cmd/webqueue.go", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/getting-started/#configuration", 
+            "text": "Webqueue can be configured by editing  webqueue.yml .  Running it with a separate configuration file can be done like so:  $ go run cmd/webqueue.go -c foo.yml", 
+            "title": "Configuration"
+        }, 
+        {
+            "location": "/getting-started/#system-wide-installation", 
+            "text": "When installed system-wide using the instructions above you can start Webqueue by running:  $ webqueue  Or when you want to provide a custom configuration file:  $ webqueue -c webqueue.yml", 
+            "title": "System-wide installation"
+        }
+    ]
+}
