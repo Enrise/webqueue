@@ -1,6 +1,8 @@
 <?php
 
-sleep(1);
+// sleep(1);
+usleep(rand(1, 10000));
+
 $input = file_get_contents('php://input');
 if (strpos($input, 'fail')) {
 	http_response_code(500);

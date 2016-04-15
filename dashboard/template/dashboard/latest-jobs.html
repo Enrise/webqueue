@@ -4,6 +4,7 @@
     <thead>
         <tr>
             <th>Time</th>
+            <th>Duration (seconds)</th>
             <th>Status</th>
             <th>Request</th>
             <th>Response</th>
@@ -12,6 +13,7 @@
     <tbody>
         <tr ng-repeat="job in jobs">
             <td>{{job.Timestamp|date:"dd-MM-yyyy HH:mm:ss"}}</td>
+            <td>{{job.Duration | number : 2}}</td>
             <td>{{job.Status}}</td>
             <td>{{job.Request|limitTo:50}}</td>
             <td>{{job.Response|limitTo:50}}</td>

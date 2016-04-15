@@ -11,6 +11,7 @@ type MessageResultOut struct {
 	Request   string
 	Response  string
 	Status    int
+	Duration  float64
 	Id        interface{} "_id"
 	Timestamp time.Time
 }
