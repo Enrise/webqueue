@@ -6,6 +6,8 @@ Webqueue makes you more productive when it comes to job queueing.
 
 ![](http://i.imgur.com/Pg3sv7f.png)
 
+Webqueue is **not tested in production yet**!
+
 ## Documentation
 
 The [documentation for Webqueue](http://enrise.github.io/webqueue/) is hosted on GitHub pages.
